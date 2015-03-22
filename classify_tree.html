@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>数据挖掘与机器学习</title>
+
+    <!-- Bootstrap -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+	
+	<style type="text/css">
+		table{font-size:12px;}
+		p{font-size:13px;}
+	</style>
+
+  </head>
+  <body>
+	<div class="container">
+
+      <!-- Static navbar -->
+      <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand " href="#"></a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="index.html"><a href="index.html">首页</a></li>
+              <li class=""><a href="#">正则化</a></li>
+			  
+              <li class="dropdown active">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">分类<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="classify_regression.html">线性分类</a></li>
+                  <li><a href="classify_tree.html">决策树分类</a></li>
+                  <li><a href="#">贝叶斯分类</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">k近邻分类</a></li>
+                  <li><a href="#">关联规则分类</a></li>
+                  <li><a href="#">遗传算法</a></li>
+                  <li><a href="#">神经网络</a></li>
+				  
+				  
+                </ul>
+			  <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">聚类<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">基于划分：k-均值/k-中心点</a></li>
+                  <li><a href="#">基于层次：BIRCH/Chameleon/概率层次</a></li>
+                  <li><a href="#">基于密度：DBSCAN/OPTICS/DENCLUE</a></li>
+                  <li><a href="#">基于网格：STING/CLIQUE</a></li>
+				  
+                </ul>
+              </li>
+			  <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">相关性<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">频繁项级</a></li>
+                  <li><a href="#">协同过滤</a></li>
+				  
+                </ul>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class=""><a href="./">源码<span class="sr-only">(current)</span></a></li>
+              <li><a href="../navbar-fixed-top/">联系作者</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron" style="background-color: white">
+				
+		<h2>决策树分类</h2>
+	
+			<div class="list-group">
+			  <li><a href="#id3">ID3 (Iterative Dichotomiser, ID3) 多元划分</a></li>
+			  <li><a href="#c45">C4.5 增益率 gain ratio</a></li>
+			  <li><a href="#chaid">CHAID 卡方自动交叉验证</a></li>
+			  <li><a href="#exchaid">穷举 CHAID</a></li>
+
+			</div>
+		
+			
+			<table class="table table-hove">
+				<thead>
+					<tr class="success">
+					  <th>方法</th>
+					  <th>属性选择度量</th>
+					  <th>公式</th>
+					  <th>是否二叉树</th>
+					  
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>ID3</td>
+						<td>信息增益</td>
+						<td>
+							$$H(U)= -\sum_{m=1}^n \frac{d_i}{D} log \frac{d_i}{D}$$
+							$$H(A,U)=\sum_{i=1}^{n}\frac{d_i}{D} H(D_i)$$
+							$$G(A,U)=H(U)-H(age,U)$$
+						</td>
+						<td>否</td>
+						
+					</tr>
+					<tr>
+						<td>C4.5</td>
+						<td>增益率</td>
+						<td>
+							$$SplitH(age,U)=-\sum_{i=1}^v\frac{D_j}{D}*log(\frac{D_j}{D})$$
+							$$GR(age,U)=\frac{G(age,U)}{SplitH(age,U)}$$
+						</td>
+						<td>否</td>
+						
+					</tr>
+					
+					<tr>
+						<td>CART</td>
+						<td>基尼系数</td>
+						<td>
+							$$ Gini(D) = 1 - \sum_{i=1}^n p_i^2 $$ 
+							$$Gini(age,U)= min_{D_i\in D}\{\sum_{i=1}^{2}\frac{d_i}{D} Gini(D_i)\}$$
+							$$G(age,U)=Gini(D)-Gini(age,U)$$
+						</td>
+						<td>是</td>
+						
+					</tr>
+					<tr>
+						<td>CHAID</td>
+						<td>$\chi^2 检验$</td>
+						<td>
+							$$\sum \frac{(A-T)^2}{T} 服从 \chi_v^2$$
+							$$v =(row -1)(column-1)$$
+							$$T_{RC}=\frac{n_R\cdot n_C}{n}$$
+						</td>
+						<td>否</td>
+					</tr>
+					
+					<tr>
+						<td>穷举CHAID</td>
+						<td>$\chi^2 检验$</td>
+						<td>
+							同上
+						</td>
+						<td>否</td>
+					</tr>
+					<tr>
+						<td>MARS</td>
+						<td>$\chi^2 检验$</td>
+						<td>
+							
+						</td>
+						<td>是</td>
+					</tr>
+				</tbody>
+			</table>
+			<!--
+            	作者：744731821@qq.com
+            	时间：2015-03-22
+            	描述：ID3 (Iterative Dichotomiser, ID3)
+            -->
+            <div id="id3">
+				<h3>ID3 (Iterative Dichotomiser, ID3) 多元划分</h3>
+				<h4>信息熵</h4>
+				
+				信息熵就是一组数据包含的信息，概率的度量。一组数据越有序信息，不确定越小，熵也就越低
+				\[H(U)=E[-log p_i] = -\sum_{m=1}^n p_i log p_i\]
+				如果一组数据是可计数的，他们出现的次数是 :\({d_1,d_2,...,d_n};D=\sum_1^n d_i\),则其熵为：<dr>
+				\[H(U)=E[-log p_i] = -\sum_{m=1}^n \frac{d_i}{D} log \frac{d_i}{D}\]
+				
+				<h4>信息增益</h4>
+				两种分布之间信息的差异<br>
+				\[G(x,U) = H(U) - H(x,U)\]
+				H(x,U)为H(U)在确定了x维度后的熵，若G(x,U)越大，则代表决策x后损失的信息越大，决策后的列纯度更高，所以优先考虑x的选择<br>
+				<br>
+				例子：<br>
+				
+				<img src="static/decision_tree_id3.png" />
+				<br>
+				<strong>步骤1：整体熵</strong>
+				计算目标属性列的熵为 buys_computer列的熵：
+				\[H(U)=-\frac{5}{14}log\frac{5}{14}-\frac{9}{14}log\frac{9}{14}\]
+				<strong>步骤2：计算所有列的熵</strong>
+				如：计算age的熵，确定age后的熵为：
+				\[H(age,U)=\frac{5}{14}H(D_{age}) + \frac{4}{14}log\frac{5}{14}H(D_{middle\_aged}) + \frac{5}{14}H(D_{old})\]	
+				
+				<strong>步骤3：熵增益，确定选择的列</strong>
+				\[G(age,U) = H(U) - H(age,U)\]
+				
+				所以优先选择熵增益大的列
+				<br>
+				<strong>步骤4：递归2-3的产生的每个分支，直到达到停止条件</strong>
+				<br>
+				递归停止条件:
+				<ul class="list-group">
+				  <li class="">当分到某列后，目标属性只有一个值</li>
+				  <li class="">当分到某列后，某个值的比例已经超过我们给定的阈值，比如，yes超过90%则停止</li>
+				</ul>
+	
+			</div>
+			
+			<!--
+            	作者：744731821@qq.com
+            	时间：2015-03-22
+            	描述：C4.5 增益率 gain ratio
+            -->
+            <div id="c45">
+				<h3>C4.5 增益率 gain ratio</h3>
+				ID3 的弊端是倾向于选择大量不同值的属性列，这样属性中的每个值都是纯的<br>
+				C4.5 在其基础上对信息增益做了修改
+				所以在计算信息增益的时候，必须考虑分列的时候的分列本身产生的信息"分列信息(split information)",信息增益必须排除该方面的信息
+				\[分列信息:SplitH(age,U)=-\sum_{i=1}^v\frac{D_j}{D}*log(\frac{D_j}{D})\]
+				\[增益率:GR(age,U)=\frac{G(age,U)}{SplitH(age,U)}\]
+			</div>
+			<div id="c45">
+				<h3>CART 多元划分</h3>
+			</div>
+			
+			<!--
+            	作者：744731821@qq.com
+            	时间：2015-03-22
+            	描述：CHAID 卡方自动交叉验证
+            -->
+            <div id="chaid">
+				<h3>CHAID 卡方自动交叉验证</h3>
+				<strong>步骤1：所有的预测自变因素需转变成离散的分类</strong>
+				<strong>步骤2：合并步</strong>
+				对于每个属性变量X，合并非显著差异的分类。如果X被选为分裂变量，X的各个最终分类将成为子节点。
+				在分裂步用到的调整P值也是在这一步计算
+				<ul class="">
+				  <li class="list-group-item">1.如果变量X只有一类，停止计算并且设置调整P为1</li>
+				  <li class="list-group-item">
+				  	2.如果变量X有2类，利用 Bonferroni 校正调整 P值
+				  	Bonferroni校正：如果在同一数据集上同时检验n个独立的假设，那么用于每一假设的统计显著水平，应为仅检验一个假设时的显著水平的1/n
+				  </li>
+	
+				  <li class="list-group-item">
+				  	3.如果X大于等于2类，找出X中合适的并且具有最小显著差异的两对类别（顺序型变量中相邻的两类为合适的，对于名义变量，任意两类都合适）。
+				  	对比的属性分量为，该两个类比的其他的属性列，
+				  	最小显著差异的两类指的是在统计检验中具有最大的P值（应用一对分类）
+				  </li>
+				  <li class="list-group-item">
+				  	4.对于具有最大P值的一对分类，检查该P值是否大于用户设定的显著水平a。如果大于a，这一对分类合并为一个合成类。
+				  	这时候变量X便形成了一个新的分类。如果不大于a，跳到第7步
+				  </li>
+				  <li class="list-group-item">
+				  	5.（可选）如果新形成的合成类包含了三个以上原始类，则找出合成类中最优的二分类点（P值最小的），
+				  	假如对应的P值不大于用户设定的显著水平a2，执行该分裂。
+				  </li>
+				  <li class="list-group-item">
+				  	6.返回第2步
+				  </li>
+				  <li class="list-group-item">
+				  	7.（可选）任何具有太少观察值（小于用户设定的最小分割大小）的类别将合并到与其最为相似（具有最大的P值）的其他类别中
+				  </li>
+				</ul>
+				<strong>步骤3：合并步</strong>
+				每个解释变量的最优分裂值已经在合并步中确定，分裂步则要确定哪个解释变量作为分裂节点。通过比较每个解释变量的调整P值可以确定最优分裂变量，调整P值在合并步中已经计算出来。
+				<ul class="">
+				  <li class="list-group-item">1.选择具有最小调整P值的解释变量</li>
+				  <li class="list-group-item">
+				  	2.如果该调整P值小于等于用户设定的显著水平a3，则使用该解释变量分裂节点。
+				  	否则，不分裂并且考虑作为叶子节点
+				  </li>
+				</ul>
+				分裂步的P值和合并步的P值不同点在于合并步只需要一对分类计算P值，分裂步需要所有分类计算P值
+			</div>
+			<!--
+            	作者：744731821@qq.com
+            	时间：2015-03-22
+            	描述：穷举 CHAID
+            -->
+            <div id="exchaid">
+				<h3>穷举 CHAID </h3>
+				<ul class="">
+				  <li class="list-group-item">1.如果变量X只有一类，停止计算并且设置调整P为1</li>
+				  <li class="list-group-item">
+				  	2.设index=0.基于目前X的分类计算P值。称P值p(index)=p(0)
+				  	 </li>
+	
+				  <li class="list-group-item">
+				  	3.找出X中符合规则并且具有最小显著差异的两对类别。最小显著差异的两类指的是在统计检验中具有最大的P值（应用一对分类）
+				  </li>
+				  <li class="list-group-item">
+				  	4.合并第3步确定的具有最大P值的分类对为一个合成类。（区别点）
+				  </li>
+				  <li class="list-group-item">
+				  	5.（可选）如果新形成的合成类包含了三个以上原始类，则找出合成类中最优的二分类点（P值最小的），
+				  	如果对应的P值比前一步中合并此合成类的P值大，执行该分裂。(Clementine没有这一步)
+				  </li>
+				  <li class="list-group-item">
+				  	6.更新index=index+1，基于目前X的分类计算新的P值，并赋予p(index)
+				  </li>
+				  <li class="list-group-item">
+				  	7.重复第3步到第6步直到只剩两大类。在所有的index中，找到使p（index）值最小的分类方式
+				  </li>
+				  <li class="list-group-item">
+				  	8.（可选）任何具有太少观察值（小于用户设定的最小分割大小）的类别将合并到与其最为相似（具有最大的P值）的其他类别中
+				  </li>
+				  <li class="list-group-item">
+				  	9.应用Bonferroni方法计算合并好的分类的调整P值（应用所有分类）
+				  </li>
+				</ul>
+			</div>
+		
+      </div>
+
+    </div> <!-- /container -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="static/js/bootstrap.min.js"></script>
+	<script type="text/x-mathjax-config">
+
+		MathJax.Hub.Config({
+			extensions: ["tex2jax.js"],
+			jax: ["input/TeX", "output/HTML-CSS"],
+		tex2jax: {
+			inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+			displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+			processEscapes: true
+			},
+		"HTML-CSS": { availableFonts: ["TeX"] },
+		});
+	</script>
+  </body>
+</html>
