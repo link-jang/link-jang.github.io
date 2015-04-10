@@ -41,12 +41,12 @@
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="classify_regression.html">线性分类</a></li>
                   <li><a href="classify_tree.html">决策树分类</a></li>
-                  <li><a href="#">贝叶斯分类</a></li>
+                  <li><a href="classify_nb.html">贝叶斯分类</a></li>
                   <li class="divider"></li>
-                  <li><a href="#">k近邻分类</a></li>
-                  <li><a href="#">关联规则分类</a></li>
-                  <li><a href="#">遗传算法</a></li>
-                  <li><a href="#">神经网络</a></li>
+                  <li><a href="classify_knn.html">k近邻分类</a></li>
+                  <li><a href="classify_cf.html">关联规则分类</a></li>
+                  <li><a href="classify_ga.html">遗传算法</a></li>
+                  <li><a href="classify_nn.html">神经网络</a></li>
 				  
 				  
                 </ul>
@@ -80,11 +80,12 @@
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron" style="background-color: white">
 				
-		<h2>决策树分类</h2>
+		<h2><strong>决策树分类</strong></h2>
 	
 			<div class="list-group">
 			  <li><a href="#id3">ID3 (Iterative Dichotomiser, ID3) 多元划分</a></li>
 			  <li><a href="#c45">C4.5 增益率 gain ratio</a></li>
+			  <li><a href="#cart">CART 分类回归树</a></li>
 			  <li><a href="#chaid">CHAID 卡方自动交叉验证</a></li>
 			  <li><a href="#exchaid">穷举 CHAID</a></li>
 
@@ -154,14 +155,7 @@
 						</td>
 						<td>否</td>
 					</tr>
-					<tr>
-						<td>MARS</td>
-						<td>$\chi^2 检验$</td>
-						<td>
-							
-						</td>
-						<td>是</td>
-					</tr>
+					
 				</tbody>
 			</table>
 			<!--
@@ -222,8 +216,17 @@
 				\[分列信息:SplitH(age,U)=-\sum_{i=1}^v\frac{D_j}{D}*log(\frac{D_j}{D})\]
 				\[增益率:GR(age,U)=\frac{G(age,U)}{SplitH(age,U)}\]
 			</div>
-			<div id="c45">
-				<h3>CART 多元划分</h3>
+			<div id="cart">
+				<h3>CART classfication and Regression  Tree</h3>
+				如果目标变量是离散变量，则是classfication Tree，如果目标是连续变量，则是Regression Tree<br>
+				（1）对于离散变量X（x1…xn）,分别取X变量各值的不同组合，将其分到树的左枝或右枝，并对不同组合而产生的树，进行评判，找出最佳组合。
+				如变量年纪，其值有“少年”、“中年”、“老年”，则分别生产{少年，中年}和{老年}，{少年、老年}和{中年}，{中年，老年}和{少年}，这三种组合，
+				最后评判对目标区分最佳的组合。<br>
+				 组内的gini系数需要找出最小的：$$ Gini(S_i) = 1 - \sum_{j=1}^{S_i} p_j^2 $$ 
+				 属性的gini系数需要找出最小的：$$ Gini_F(S) = \frac{S_1}{S}Gini(S_1) + \frac{S_2}{S}Gini(S_2) $$ 
+				（2）对于连续变量X（x1…xn）,首先将值排序，分别取其两相邻值的平均值点作为分隔点，将树一分成左枝和右枝，不断扫描，进而判断最佳分割点。<br>
+				（3）对所有属性的所有组合的基尼系数(分组后左右子树的gini系数)，对比其基尼系数，选择最小的作为值作为该节点的分支<br>
+				 
 			</div>
 			
 			<!--
@@ -233,7 +236,7 @@
             -->
             <div id="chaid">
 				<h3>CHAID 卡方自动交叉验证</h3>
-				<strong>步骤1：所有的预测自变因素需转变成离散的分类</strong>
+				<strong>步骤1：所有的预测自变因素需转变成离散的分类</strong><br>
 				<strong>步骤2：合并步</strong>
 				对于每个属性变量X，合并非显著差异的分类。如果X被选为分裂变量，X的各个最终分类将成为子节点。
 				在分裂步用到的调整P值也是在这一步计算
@@ -264,7 +267,7 @@
 				  	7.（可选）任何具有太少观察值（小于用户设定的最小分割大小）的类别将合并到与其最为相似（具有最大的P值）的其他类别中
 				  </li>
 				</ul>
-				<strong>步骤3：合并步</strong>
+				<strong>步骤3：分裂步</strong>
 				每个解释变量的最优分裂值已经在合并步中确定，分裂步则要确定哪个解释变量作为分裂节点。通过比较每个解释变量的调整P值可以确定最优分裂变量，调整P值在合并步中已经计算出来。
 				<ul class="">
 				  <li class="list-group-item">1.选择具有最小调整P值的解释变量</li>

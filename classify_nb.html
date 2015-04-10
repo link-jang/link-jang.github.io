@@ -24,20 +24,20 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand " href=""></a>
+            <a class="navbar-brand " href="#"></a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">首页</a></li>
+              <li class=""><a href="index.html">首页</a></li>
               <li class=""><a href="#">正则化</a></li>
 			  
-              <li class="dropdown">
-                <a href="classify.html" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">分类<span class="caret"></span></a>
+              <li class="dropdown active">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">分类<span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="classify_regression.html">线性分类</a></li>
                   <li><a href="classify_tree.html">决策树分类</a></li>
                   <li><a href="classify_nb.html">贝叶斯分类</a></li>
-                  <li class="divider"></li>
+                  <li class="divider"></li>	
                   <li><a href="classify_knn.html">k近邻分类</a></li>
                   <li><a href="classify_cf.html">关联规则分类</a></li>
                   <li><a href="classify_ga.html">遗传算法</a></li>
@@ -73,34 +73,62 @@
       </nav>
 
       <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
-		<div class="row">
-			<div class="col-md-1"></div>
-			<div class="col-md-10">
-				<h2  class="title">分类</h2>
-				<ul class="list-group">
-				  <li class=""><a href="classify_regression.html">线性分类</a></li>
-				  <li class=""><a href="classify_tree.html">决策树分类</a></li>
-				  <li class=""><a href="classify_nb.html">贝叶斯分类</a></li>
-				  <li class=""><a href="classify_knn.html">k近邻分类</a></li>
-				  <li class=""><a href="classify_cf.html">关联规则分类</a></li>
-				  <li class=""><a href="classify_ga.html">遗传算法</a></li>
-				  <li class=""><a href="classify_nn.html">神经网络</a></li>
-				</ul>
-				<h2   class="title">聚类</h2>
-				<ul class="list-group">
-				  <li class=""><a href="#">基于划分：k-均值/k-中心点</a></li>
-				  <li class=""><a href="#">基于层次：BIRCH/Chameleon/概率层次</a></li>
-				  <li class=""><a href="#">基于密度：DBSCAN/OPTICS/DENCLUE</a></li>
-				  <li class=""><a href="#">基于网格：STING/CLIQUE</a></li>
-				</ul>
-				<h2  class="title">相关性</h2>
-				<ul class="list-group">
-				  <li class=""><a href="#">频繁项级</a></li>
-				  <li class=""><a href="#">协同过滤</a></li>
-				</ul>
+      <div class="jumbotron" style="background-color: white">
 
-			</div>
+		
+		
+			
+		<div class="container" id="nativebayes ">
+			<h2><strong>朴素贝叶斯分类</strong></h2>
+			<h3>多项式模型(multinomial model) 词频型</h3>
+			<p>
+				<strong>基本原理</strong>
+				在多项式模型中， 设某文档  \(d=(t_1,t_2,...,t_k)\),\(t_k\)是该文档中出现过的单词，允许重复，则
+				类C先验概率
+					\[P(c)=\frac{类c下单词总数}{整个训练样本的单词总数}\]
+				单词条件概率
+					\[P(t_k|c)=\frac{类c下单词t_K在各个文档中出现过的次数之和+\lambda}{类c下单词总数+|V|*\lambda}\]
+				V是训练样本的单词表（即抽取单词，单词出现多次，只算一个），|V|则表示训练样本包含多少种单词。 
+				\(P(t_k|c)\)可以看作是单词tk在证明d属于类c上提供了多大的证据，而P(c)则可以认为是类别c在整体上占多大比例(有多大可能性)	
+				
+			</p>
+			<h3>伯努利模型(Bernoulli model) 文档型</h3>
+			<p>
+				<strong>基本原理</strong>
+				以文件为粒度，或者说是采用二项分布模型，伯努利实验即N次独立重复随机实验，只考虑事件发生/不发生，所以每个单词的表示变量是布尔型的类条件概率
+				类C先验概率
+					\[P(c)=\frac{类c下文件总数}{整个训练样本的文件总数}\]
+				单词条件概率
+					\[P(t_k|c)=\frac{类c下包含单词t_K的文件数+\lambda}{类c下文件总数+2*\lambda}\]
+				
+			</p>
+			<p>
+				<strong>计算概率</strong>
+				\[P(C_i|(t_1,t_2,...,t_k))=\frac{P(t_1,t_2,...,t_k|C_i)P(C_i)}{P(t_1,t_2,...,t_k)}\]
+				假设\(t_1,t_2,...,t_k\)之间相互独立：
+				\[P(C_i|(t_1,t_2,...,t_k))=\frac{P(t_1|C_1)P(t_2|C_i)...P(t_k|C_i)P(C_i)}{P(t_1,t_2,...,t_k)}\]
+				
+			</p>
+			<p>
+				<strong>TF-IDF（term frequency–inverse document frequency）</strong>
+				TFIDF的主要思想是：如果某个词或短语在一篇文章中出现的频率TF高，并且在其他文章中很少出现，则认为此词或者短语具有很好的类别区分能力，适合用来分类
+				\[TFIDF=TF * IDF\]
+				TF词频(Term Frequency)，IDF逆向文件频率(Inverse Document Frequency)
+				\[TF_{i,j}=log(\frac{n_{i,j}}{\sum_k n_{k,j}})\]
+				\(TF_{i,j}\)为词频，\(n_{i,j}\)为第i个文件中出现词j的次数，\(\sum_k n_{k,j}\)为所有文件词j出现的次数
+				
+				逆向文件频率（inverse document frequency，IDF）是一个词语普遍重要性的度量
+				
+				\[IDF_{i,j}=log(\frac{|D|}{1+|\{t\in D\}|})\]
+				
+				|D|:语料库中的文件总数<br/>
+				\(1+|\{t\in D\}|\):包含该词语的文件总数<br/>
+				
+				
+			</p>
+			
+			
+			
 		</div>
       </div>
 
